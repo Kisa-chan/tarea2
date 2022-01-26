@@ -29,6 +29,7 @@ class MainScene extends Phaser.Scene {
         bg_1.fixedToCamera = true;
         //necesitamos un player
         this.player = new Player(this, 50, 100);
+
         var map = this.make.tilemap({ key: "map" });
         var tiles = map.addTilesetImage("Plataformas", "tiles");
 
@@ -74,6 +75,8 @@ class MainScene extends Phaser.Scene {
             fill: "#000",
             fontFamily: "verdana, arial, sans-serif",
         });
+
+        this.scoreText.setScrollFactor(0);
     }
 
     spriteHit(sprite1, sprite2) {
@@ -83,6 +86,12 @@ class MainScene extends Phaser.Scene {
 
     update(time, delta) {
         this.player.update(time, delta);
+        if (this.player.y >= game.config.height) {
+            this.scene.restart();
+        }
+        if (this.player.x <= 0) {
+            this.scene.restart();
+        }
     }
 
     agregarPuntaje() {

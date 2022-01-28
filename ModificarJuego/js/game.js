@@ -1,5 +1,5 @@
 //Configuración de la escena
-var windows = {width:800,height: 480}
+var windows = {width:800,height: 736}
 var config = {
     type: Phaser.AUTO,
     width: windows.width,
@@ -7,7 +7,7 @@ var config = {
     parent: "canvas",
     mode: Phaser.Scale.FIT,
     autoCenter: Phaser.Scale.CENTER_BOTH,
-    scene: MainScene,
+    scene: [MainScene, SecondScene],
     physics: {
         default: 'arcade',
         arcade: {

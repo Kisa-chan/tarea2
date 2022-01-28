@@ -109,9 +109,11 @@ class SecondScene extends Phaser.Scene {
         this.player.update(time, delta);
         this.player.body.setSize(this.player.width, this.player.height, true);
 
-        if (this.player.x <= 0) {
-            this.scene.restart();
-        }
+        /*var outOfScreen = (this.player.y >= game.config.height);
+
+        if(outOfScreen){
+            this.scene.start("Gameover");
+        }*/
     }
 
     agregarPuntaje() {

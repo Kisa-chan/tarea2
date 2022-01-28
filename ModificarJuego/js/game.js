@@ -7,7 +7,7 @@ var config = {
     parent: "canvas",
     mode: Phaser.Scale.FIT,
     autoCenter: Phaser.Scale.CENTER_BOTH,
-    scene: [MainScene, SecondScene],
+    scene: [Inicio, MainScene, SecondScene, Gameover],
     physics: {
         default: 'arcade',
         arcade: {

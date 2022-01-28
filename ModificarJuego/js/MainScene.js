@@ -10,7 +10,8 @@ class MainScene extends Phaser.Scene {
         this.load.image("bg-1", "res/sky.png");
         this.load.image("sea", "res/sea.png");
         this.load.image("player", "res/idle-1.png");
-        
+        this.load.image("bat", "res/idle-bat-1.png");
+
         //Phaser.Physics.Arcade.Sprite
         // https://gammafp.com/tool/atlas-packer/
        /* this.load.atlas(
@@ -22,6 +23,7 @@ class MainScene extends Phaser.Scene {
             'res/player_anim/hero_anim.json');
         this.load.spritesheet('tilesSprites','res/Tileset.png',
         { frameWidth: 32, frameHeight: 32 });
+        this.load.atlas('sprites_bat', 'res/bat_anim/bat-atlas.png', 'res/bat_anim/bat-atlas.json');
     }
 
     create() {
@@ -43,9 +45,12 @@ class MainScene extends Phaser.Scene {
 
         var layer2 = this.map.createLayer("Fondo", tiles, 0, 0);
         var layer = this.map.createLayer("Suelo", tiles, 0, 0);
+        var limites = this.map.createLayer("Limites", tiles, 0, 0);
+        limites.setVisible(false);
         //enable collisions for every tile
 
         this.player = new Player(this, 20, 100, 3);
+        limites.setCollisionByExclusion([-1], true);
         layer.setCollisionByExclusion([-1], true);
         this.physics.add.collider(this.player, layer);
 
@@ -80,6 +85,26 @@ class MainScene extends Phaser.Scene {
                 );
             }
         }
+
+        this.bats = []
+        this.enemigos = this.map.getObjectLayer("bats")["objects"];
+        this.enemigos.forEach((enemigo)=> {
+          console.log(enemigo);
+            // en mi caso la seta
+            var bat = new Bat(this, enemigo.x, enemigo.y);
+            this.bats.push(bat);
+            bat.body.setSize(32,60);
+            this.physics.add.collider(bat, layer);
+            this.physics.add.collider(bat, limites);
+            this.physics.add.overlap(
+              bat,
+              this.player,
+              this.batHit,
+              null,
+              this
+          );
+        });
+
         this.score = 0;
         this.scoreText = this.add.text(16, 16, "PUNTOS: " + this.score, {
             fontSize: "20px",
@@ -102,18 +127,33 @@ class MainScene extends Phaser.Scene {
     }
 
     spriteHit(sprite1, sprite2) {
-        if(this.player.isAttacking){
-           // sprite1.destroy();
-        } else if(!this.player.isDeath) {
-            this.player.checkDamage();
-        }
         this.agregarPuntaje();
         sprite1.destroy();
 
     }
 
+    batHit(bat, player) {
+      if (!bat.playAttack) {
+       if(!this.player.isAttacking &&!this.player.isDeath) {
+           this.player.checkDamage();
+       }
+        bat.attack();
+        bat.play("attack", true);
+        bat.once('animationcomplete', () => {
+          console.log('animationcomplete')
+          bat.destroy()
+          this.bats = this.bats.filter((_bat) => {
+            return _bat != bat;
+          })
+        })
+      }
+    }
+
     update(time, delta) {
         this.player.update(time, delta);
+        this.bats.forEach((bat) => {
+          bat.update(time, delta);
+        });
         this.player.body.setSize(this.player.width, this.player.height, true);
 
         if (this.player.y >= game.config.height) {

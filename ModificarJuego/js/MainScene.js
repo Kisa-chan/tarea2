@@ -24,6 +24,7 @@ class MainScene extends Phaser.Scene {
         this.load.spritesheet('tilesSprites','res/Tileset.png',
         { frameWidth: 32, frameHeight: 32 });
         this.load.atlas('sprites_bat', 'res/bat_anim/bat-atlas.png', 'res/bat_anim/bat-atlas.json');
+        this.load.atlas('sprites_skelleton', 'res/skelleton_anim/skelleton-atlas.png', 'res/skelleton_anim/skelleton-atlas.json');
     }
 
     create() {
@@ -89,7 +90,6 @@ class MainScene extends Phaser.Scene {
         this.bats = []
         this.enemigos = this.map.getObjectLayer("bats")["objects"];
         this.enemigos.forEach((enemigo)=> {
-          console.log(enemigo);
             // en mi caso la seta
             var bat = new Bat(this, enemigo.x, enemigo.y);
             this.bats.push(bat);
@@ -129,7 +129,6 @@ class MainScene extends Phaser.Scene {
     spriteHit(sprite1, sprite2) {
         this.agregarPuntaje();
         sprite1.destroy();
-
     }
 
     batHit(bat, player) {
@@ -140,11 +139,8 @@ class MainScene extends Phaser.Scene {
         bat.attack();
         bat.play("attack", true);
         bat.once('animationcomplete', () => {
-          console.log('animationcomplete')
           bat.destroy()
-          this.bats = this.bats.filter((_bat) => {
-            return _bat != bat;
-          })
+          this.bats = this.bats.filter(_bat => _bat != bat);
         })
       }
     }

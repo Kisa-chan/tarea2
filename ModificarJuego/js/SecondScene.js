@@ -48,21 +48,20 @@ class SecondScene extends Phaser.Scene {
         map.createLayer("Fondo Arboles", ['Arboles', 'Cueva-Fondo-3', 'Cueva-Fondo-4'], 0, 0);
         map.createLayer("Frente", 'Arboles', 0, 0);
         map.createLayer("Frente2", ['Decoraciones', 'Plataformas', 'Cueva-Objetos'], 0, 0);
-        map.createLayer("Plataformas", ['Plataformas', 'Cueva-Plataformas', , 'Cueva-Objetos'], 0, 0);
-        var tiles = map.createLayer("Puas", ['Plataformas', 'Cueva-Plataformas', 'Cueva-Objetos'], 0, 0);
+        map.createLayer("Puas", ['Plataformas', 'Cueva-Plataformas', 'Cueva-Objetos'], 0, 0);
+        var tiles = map.createLayer("Plataformas", ['Plataformas', 'Cueva-Plataformas', , 'Cueva-Objetos'], 0, 0);
 
         var plataformas = map.createLayer("Plataformas Collider", tiles, 0, 0);
-        var puas = map.createLayer("Puas Collider", tiles, 0, 0);
         var limites = map.createLayer("Limites", tiles, 0, 0);
         //enable collisions for every tile
 
         this.player = new Player(this, 20, 100, this.health);
         plataformas.setCollisionByExclusion([-1], true);
-        puas.setCollisionByExclusion([-1], true);
         limites.setCollisionByExclusion([-1], true);
-        //limites.setVisible(false);
+        limites.setVisible(false);
+      
         this.physics.add.collider(this.player, plataformas);
-        this.physics.add.collider(this.player, puas);
+
 
         this.cameras.main.setBounds(
             0,
@@ -77,6 +76,23 @@ class SecondScene extends Phaser.Scene {
             map.widthInPixels,
             map.heightInPixels
         );
+
+        this.puasGroup = []
+        this.puas = map.getObjectLayer("puas")["objects"];
+
+        this.puas.forEach((pua)=> {
+            var pua = new Pua(this, pua.x+8, pua.y-8);
+            this.puasGroup.push(pua);
+            pua.body.setSize(16,16);
+            this.physics.add.collider(pua, plataformas);
+            this.physics.add.overlap(
+              pua,
+              this.player,
+              this.puaHit,
+              null,
+              this
+          );
+        });
 
         this.scoreText = this.add.text(16, 16, "PUNTOS: " + this.score, {
             fontSize: "20px",
@@ -115,15 +131,10 @@ class SecondScene extends Phaser.Scene {
         this.player.body.setSize(this.player.width, this.player.height, true);
     }
 
-    spriteHit(sprite1, sprite2) {
-        if (this.player.isAttacking) {
-            sprite1.destroy();
-        } else if (!this.player.isDeath) {
+    puaHit() {
+        if (!this.player.isDeath) {
             this.player.checkDamage();
         }
-        this.agregarPuntaje();
-        //sprite1.destroy();
-
     }
 
     skelletonHit(skelleton, player) {
@@ -155,9 +166,11 @@ class SecondScene extends Phaser.Scene {
         this.player.update(time, delta);
         this.player.body.setSize(this.player.width, this.player.height, true);
 
-        if (this.player.x <= 0) {
-            this.scene.restart();
-        }
+        /*var outOfScreen = (this.player.y >= game.config.height);
+
+        if(outOfScreen){
+            this.scene.start("Gameover");
+        }*/
     }
 
     agregarPuntaje() {

@@ -38,7 +38,6 @@ class MainScene extends Phaser.Scene {
             "bg-1"
         );
         bg_1.fixedToCamera = true;
-        //necesitamos un player
 
         this.input.keyboard.on('keydown-X', this.isAttacking, this);
 
@@ -50,6 +49,7 @@ class MainScene extends Phaser.Scene {
         limites.setVisible(false);
         //enable collisions for every tile
 
+        //necesitamos un player
         this.player = new Player(this, 20, 100, 3);
         limites.setCollisionByExclusion([-1], true);
         layer.setCollisionByExclusion([-1], true);
@@ -152,16 +152,14 @@ class MainScene extends Phaser.Scene {
         });
         this.player.body.setSize(this.player.width, this.player.height, true);
 
-        if (this.player.y >= game.config.height) {
-           this.scene.restart();
-           //this.scene.start("SecondScene", {score: this.score, health: this.player.health});
-        }
-        if (this.player.x <= 0) {
-            this.scene.restart();
-        }
+        var outOfScreen = (this.player.y >= game.config.height);
 
         if (this.player.x > this.map.widthInPixels) {
             this.scene.start("SecondScene", {score: this.score, health: this.player.health});
+        }
+
+        if(outOfScreen){
+            this.scene.start("Gameover");
         }
     }
 

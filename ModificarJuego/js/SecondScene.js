@@ -17,6 +17,7 @@ class SecondScene extends Phaser.Scene {
         this.load.image("cueva-fondo-4", 'res/_PNG/cueva-fondo-4.png');
         this.load.image("cueva-plataformas", 'res/_PNG/cueva-plataformas.png');
         this.load.image("cueva-objetos", 'res/_PNG/cueva-objetos.png');
+        this.load.image("skelleton", "res/idle-skelleton-1.png");
     }
 
     init(data) {
@@ -51,11 +52,14 @@ class SecondScene extends Phaser.Scene {
         var tiles = map.createLayer("Plataformas", ['Plataformas', 'Cueva-Plataformas', , 'Cueva-Objetos'], 0, 0);
 
         var plataformas = map.createLayer("Plataformas Collider", tiles, 0, 0);
-
+        var limites = map.createLayer("Limites", tiles, 0, 0);
         //enable collisions for every tile
 
         this.player = new Player(this, 20, 100, this.health);
         plataformas.setCollisionByExclusion([-1], true);
+        limites.setCollisionByExclusion([-1], true);
+        limites.setVisible(false);
+      
         this.physics.add.collider(this.player, plataformas);
 
 
@@ -100,6 +104,23 @@ class SecondScene extends Phaser.Scene {
 
         this.time.addEvent({ delay: 1000, callback: this.delayDone, callbackScope: this, loop: false });
 
+        this.skelletons = []
+        this.enemigos = map.getObjectLayer("Enemigos")["objects"];
+        this.enemigos.forEach((enemigo)=> {
+            // en mi caso la seta
+            var skelleton = new Skelleton(this, enemigo.x, enemigo.y);
+            this.skelletons.push(skelleton);
+            skelleton.body.setSize(skelleton.width - 40,skelleton.height, true);
+            this.physics.add.collider(skelleton, plataformas);
+            this.physics.add.collider(skelleton, limites);
+            this.physics.add.overlap(
+              skelleton,
+              this.player,
+              this.skelletonHit,
+              null,
+              this
+          );
+        });
     }
 
     isAttacking() {
@@ -116,7 +137,32 @@ class SecondScene extends Phaser.Scene {
         }
     }
 
+    skelletonHit(skelleton, player) {
+      if (!skelleton.playAnim && !this.player.isDeath) {
+       if(!this.player.isAttacking) {
+           if (player.x < skelleton.x) {
+             skelleton.setFlipX(true)
+           } else {
+             skelleton.setFlipX(false);
+           }
+           skelleton.attack();
+           skelleton.once('animationcomplete', () => {
+             this.player.checkDamage();
+           });
+       } else {
+         skelleton.die();
+         skelleton.once('animationcomplete', () => {
+           skelleton.destroy();
+           this.skelletons = this.skelletons.filter(_skelleton => _skelleton != skelleton);
+         })
+       }
+      }
+    }
+
     update(time, delta) {
+        this.skelletons.forEach((skelleton) => {
+          skelleton.update(time, delta);
+        });
         this.player.update(time, delta);
         this.player.body.setSize(this.player.width, this.player.height, true);
 

@@ -1,0 +1,216 @@
+{
+    "frames": [
+        {
+            "filename": "attack-1",
+            "frame": {
+                "w": 150,
+                "h": 64,
+                "x": 0,
+                "y": 0
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "attack-2",
+            "frame": {
+                "w": 150,
+                "h": 64,
+                "x": 0,
+                "y": 64
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "attack-3",
+            "frame": {
+                "w": 150,
+                "h": 64,
+                "x": 0,
+                "y": 128
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "attack-4",
+            "frame": {
+                "w": 150,
+                "h": 64,
+                "x": 150,
+                "y": 0
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "attack-8",
+            "frame": {
+                "w": 150,
+                "h": 64,
+                "x": 150,
+                "y": 64
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "attack-5",
+            "frame": {
+                "w": 150,
+                "h": 64,
+                "x": 150,
+                "y": 128
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "attack-6",
+            "frame": {
+                "w": 150,
+                "h": 64,
+                "x": 0,
+                "y": 192
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "attack-7",
+            "frame": {
+                "w": 150,
+                "h": 64,
+                "x": 150,
+                "y": 192
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "walk-1",
+            "frame": {
+                "w": 150,
+                "h": 56,
+                "x": 0,
+                "y": 256
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "walk-2",
+            "frame": {
+                "w": 150,
+                "h": 56,
+                "x": 150,
+                "y": 256
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "walk-3",
+            "frame": {
+                "w": 150,
+                "h": 56,
+                "x": 300,
+                "y": 0
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "walk-4",
+            "frame": {
+                "w": 150,
+                "h": 56,
+                "x": 300,
+                "y": 56
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "death-1",
+            "frame": {
+                "w": 150,
+                "h": 58,
+                "x": 300,
+                "y": 112
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "death-4",
+            "frame": {
+                "w": 150,
+                "h": 58,
+                "x": 300,
+                "y": 170
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "death-2",
+            "frame": {
+                "w": 150,
+                "h": 58,
+                "x": 300,
+                "y": 228
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "death-3",
+            "frame": {
+                "w": 150,
+                "h": 58,
+                "x": 300,
+                "y": 286
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        }
+    ],
+    "meta": {
+        "description": "Atlas generado con Atlas Packer Gamma V2",
+        "web": "https://gammafp.github.io/atlas-packer-phaser/"
+    }
+}

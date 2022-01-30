@@ -8,7 +8,7 @@ class Inicio extends Phaser.Scene {
     }
 
     create() {
-        var bg_1 = this.add.tileSprite(
+        this.add.tileSprite(
             windows.width/2,
             windows.height/2,
             windows.width,
@@ -26,6 +26,7 @@ class Inicio extends Phaser.Scene {
             }
         );
 
+        //Se añaden los inputs que se pueden presionar para iniciar el juego
         this.tweens.add({
             targets: pressButton,
             alpha: 0,
@@ -54,6 +55,7 @@ class Inicio extends Phaser.Scene {
             this.iniciarJuego();
         });
     }
+
     iniciarJuego() {
         this.scene.start("MainScene");
     }

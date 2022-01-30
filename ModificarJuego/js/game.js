@@ -12,14 +12,10 @@ var config = {
         default: 'arcade',
         arcade: {
             gravity: { y: 200 },
-            debug:true
+            debug:false
         }
     }
 };
 
 var game = new Phaser.Game(config);
-//'http://labs.phaser.io'
-//'assets/skies/space3.png'
-//'assets/sprites/phaser3-logo.png'
-//'assets/particles/red.png'
 

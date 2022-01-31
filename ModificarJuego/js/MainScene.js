@@ -12,6 +12,7 @@ class MainScene extends Phaser.Scene {
         this.load.image("sea", "res/sea.png");
         this.load.image("player", "res/idle-1.png");
         this.load.image("bat", "res/idle-bat-1.png");
+        this.load.image('life3', 'res/life3.png');
         //Se carga archivo de audio para usar como musica de fondo
         this.load.audio("bgmField", ["res/Audio/field_theme.wav"]);
 
@@ -98,6 +99,7 @@ class MainScene extends Phaser.Scene {
           );
         });
 
+        //Sistema de puntuacion en pantalla
         this.score = 0;
         this.scoreText = this.add.text(16, 16, "PUNTOS: " + this.score, {
             fontSize: "20px",
@@ -107,8 +109,31 @@ class MainScene extends Phaser.Scene {
 
         this.scoreText.setScrollFactor(0);
 
+        //Sistema de vidas en pantalla
+        //Imagen
+        this.lifeSprite = this.add.image(600,30, 'life3');
+        this.lifeSprite.setScale(0.2);
+        this.lifeSprite.setScrollFactor(0);
+        //Texto
+        this.vidas=this.player.health;
+        this.lifeText = this.add.text(622, 18, "X " + this.vidas, {
+            fontSize: "20px",
+            fill: "#000",
+            fontFamily: "verdana, arial, sans-serif",
+        });
+        this.lifeText.setScrollFactor(0);
+        
+        //Indicacion de atacar y saltar
+        this.tutorialText = this.add.text(300, 18, "Se golpea con X\nSe salta con ESPACIO\nSe mueve con las flechas", {
+            fontSize: "20px",
+            fill: "#000",
+            fontFamily: "verdana, arial, sans-serif",
+        });
+
+
         this.time.addEvent({delay: 1000, callback: this.delayDone, callbackScope: this, loop: false});
 
+        
     }
 
     //Funcion de ataque que cambia el estado del jugador solo si no esta muerto y no ha atacado todavia
@@ -124,6 +149,7 @@ class MainScene extends Phaser.Scene {
     //Funcion para agregar puntaje cuando se recoge una seta
     spriteHit(sprite1, sprite2) {
         this.agregarPuntaje();
+        this.agregarVidas();
         sprite1.destroy();
     }
 
@@ -132,6 +158,7 @@ class MainScene extends Phaser.Scene {
       if (!bat.playAttack) {
        if(!this.player.isAttacking &&!this.player.isDeath) {
            this.player.checkDamage();
+           this.quitarVidas();
        }
         bat.attack();
         bat.play("attack", true);
@@ -139,6 +166,7 @@ class MainScene extends Phaser.Scene {
           bat.destroy()
           this.bats = this.bats.filter(_bat => _bat != bat);
           this.agregarPuntaje();
+          this.agregarVidas();
         })
       }
     }
@@ -176,4 +204,18 @@ class MainScene extends Phaser.Scene {
         this.score++;
         this.scoreText.setText(["PUNTOS: " + this.score]);
     }
+
+    //Funcion para ver las vidas en el juego
+    quitarVidas(){
+        this.vidas=this.player.health;
+        this.lifeText.setText(["X "+this.vidas]);
+    }
+    //Funcion para agregar vidas de acuerdo a la puntuacion
+    agregarVidas(){
+    if(this.score % 10 == 0){
+      this.player.health++;
+    }
+    this.health=this.player.health;
+    this.lifeText.setText(["X "+this.health]);
+}
 }

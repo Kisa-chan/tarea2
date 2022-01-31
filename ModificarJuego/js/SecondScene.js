@@ -114,13 +114,28 @@ class SecondScene extends Phaser.Scene {
           );
         });
 
+      //Sistema de puntuacion en pantalla
       this.scoreText = this.add.text(16, 16, "PUNTOS: " + this.score, {
           fontSize: "20px",
-          fill: "#000",
+          fill: "#FFF",
           fontFamily: "verdana, arial, sans-serif",
       });
 
       this.scoreText.setScrollFactor(0);
+
+      //Sistema de vidas en pantalla
+      //Imagen
+      this.lifeSprite = this.add.image(600,30, 'life3');
+      this.lifeSprite.setScale(0.2);
+      this.lifeSprite.setScrollFactor(0);
+      //Texto
+      this.lifeText = this.add.text(622, 18, "X " + this.health, {
+          fontSize: "20px",
+          fill: "#FFF",
+          fontFamily: "verdana, arial, sans-serif",
+      });
+      this.lifeText.setScrollFactor(0);
+      
 
       this.time.addEvent({ delay: 1000, callback: this.delayDone, callbackScope: this, loop: false });
     }
@@ -138,6 +153,7 @@ class SecondScene extends Phaser.Scene {
     puaHit() {
         if (!this.player.isDeath) {
             this.player.checkDamage();
+            this.quitarVidas();
         }
     }
 
@@ -153,6 +169,7 @@ class SecondScene extends Phaser.Scene {
            skelleton.attack();
            skelleton.once('animationcomplete', () => {
              this.player.checkDamage();
+             this.quitarVidas();
            });
        } else {
          skelleton.die();
@@ -160,6 +177,7 @@ class SecondScene extends Phaser.Scene {
            skelleton.destroy();
            this.skelletons = this.skelletons.filter(_skelleton => _skelleton != skelleton);
            this.agregarPuntaje();
+           this.agregarVidas();
          })
        }
       }
@@ -179,7 +197,7 @@ class SecondScene extends Phaser.Scene {
         }
         if (this.player.y > this.map.heightInPixels) {
           this.bgm.stop();
-          this.scene.start("Gameover", {score: this.score});
+          this.scene.start("Win", {score: this.score});
       }
     }
 
@@ -188,4 +206,18 @@ class SecondScene extends Phaser.Scene {
       this.score++;
       this.scoreText.setText(["PUNTOS: " + this.score]);
   }
+
+  //Funcion para ver las vidas en el juego
+  quitarVidas(){
+    this.health=this.player.health;
+    this.lifeText.setText(["X "+this.health]);
+}
+//Funcion para agregar vidas de acuerdo a la puntuacion
+  agregarVidas(){
+    if(this.score % 10 == 0){
+      this.player.health++;
+    }
+    this.health=this.player.health;
+    this.lifeText.setText(["X "+this.health]);
+}
 }

@@ -13,15 +13,15 @@ class Win extends Phaser.Scene {
 
     create() {
         this.add.tileSprite(
-            windows.width/2,
-            windows.height/2,
+            windows.width / 2,
+            windows.height / 2,
             windows.width,
             windows.height,
             "bg-1"
         );
 
         //Se añade el texto a presentar en la pantalla de GameOver
-        var referenceText2 = "GANASTE !!!\nGRACIAS POR JUGAR !!!"
+        var referenceText2 = "GANASTE !!!\nGRACIAS POR JUGAR !!!";
         this.add.text(
             this.sys.game.config.width / 2 - 170,
             this.sys.game.config.height / 2 - 180,
@@ -43,7 +43,8 @@ class Win extends Phaser.Scene {
             }
         );
 
-        var referenceText = "Recursos usados en este juego tomados de itch.io\nEscenarios y plataformas: Szadi art.\nMusica: SVL.\nSprite de jugador: LuizMelo.\nProgramadores: L. Lucena; M. Sierra; T. Rodriguez; D. Reyes"
+        var referenceText =
+            "Recursos usados en este juego tomados de itch.io\nEscenarios y plataformas: Szadi art.\nMusica: SVL.\nSprite de jugador: LuizMelo.\nProgramadores: L. Lucena; M. Sierra; T. Ramirez; D. Reyes";
         var text = this.add.text(
             this.sys.game.config.width / 2 - 250,
             this.sys.game.config.height / 2 - 20,
@@ -58,20 +59,15 @@ class Win extends Phaser.Scene {
 
         //Se añade un timer de 15 segundos para volver a la pantalla de inicio o si desea se presiona ENTER para hacerlo inmediatamente
         this.evento = setTimeout(() => {
-            this.salirEscene();
+            utils.salirEscene(this);
         }, 15000);
 
         this.input.keyboard.on("keydown-ENTER", () => {
-            this.salirEscene();
+            utils.salirEscene(this);
         });
-        this.input.on("pointerdown", () => {
-            console.log("pointerdown");
-            this.salirEscene();
+        this.input.on("", () => {
+            //console.log("pointerdown");
+            utils.salirEscene(this);
         });
-    }
-
-    salirEscene() {
-        clearTimeout(this.evento);
-        this.scene.start("Inicio");
     }
 }

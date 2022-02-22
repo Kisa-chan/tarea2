@@ -13,8 +13,8 @@ class Gameover extends Phaser.Scene {
 
     create() {
         this.add.tileSprite(
-            windows.width/2,
-            windows.height/2,
+            windows.width / 2,
+            windows.height / 2,
             windows.width,
             windows.height,
             "bg-1"
@@ -43,7 +43,8 @@ class Gameover extends Phaser.Scene {
             }
         );
 
-        var referenceText = "Recursos usados en este juego tomados de itch.io\nEscenarios y plataformas: Szadi art.\nMusica: SVL.\nSprite de jugador: LuizMelo."
+        var referenceText =
+            "Recursos usados en este juego tomados de itch.io\nEscenarios y plataformas: Szadi art.\nMusica: SVL.\nSprite de jugador: LuizMelo.";
         var text = this.add.text(
             this.sys.game.config.width / 2 - 250,
             this.sys.game.config.height / 2 - 20,
@@ -58,20 +59,15 @@ class Gameover extends Phaser.Scene {
 
         //Se añade un timer de 5 segundos para volver a la pantalla de inicio o si desea se presiona ENTER para hacerlo inmediatamente
         this.evento = setTimeout(() => {
-            this.salirEscene();
+            utils.salirEscene(this);
         }, 5000);
 
         this.input.keyboard.on("keydown-ENTER", () => {
-            this.salirEscene();
+            utils.salirEscene(this);
         });
         this.input.on("pointerdown", () => {
-            console.log("pointerdown");
-            this.salirEscene();
+            //console.log("pointerdown");
+            utils.salirEscene(this);
         });
-    }
-
-    salirEscene() {
-        clearTimeout(this.evento);
-        this.scene.start("Inicio");
     }
 }

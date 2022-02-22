@@ -18,4 +18,5 @@ var config = {
 };
 
 var game = new Phaser.Game(config);
+var utils = new Utils();
 

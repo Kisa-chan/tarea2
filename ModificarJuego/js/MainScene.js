@@ -41,7 +41,7 @@ class MainScene extends Phaser.Scene {
 
         //Se crea un objeto tipo player y se añaden las colisiones con el ambiente
         this.player = new Player(this, 20, 100, 5);
-        utils.configurarColisiones(limites, layer, this.physics, this.player);
+        utils.configurarColisiones(layer, this.physics, this.player, limites);
         utils.configurarCamara(this.cameras, this.map, this.player);
 
         // this.input.keyboard.on("keydown-X", this.isAttacking, this);
@@ -151,6 +151,13 @@ class MainScene extends Phaser.Scene {
             });
         }
 
+        // //Se verifica si el jugador a llegado al final del nivel para cambiar de escena y se detiene la musica de la escena actual
+        // var outOfScreen = (this.player.y >= game.config.height);
+        // if(outOfScreen){
+        //     this.bgm.stop();
+        //     this.scene.start("BossScene", {score: this.score, health: this.player.health});
+        // }
+
         //Se verifica si el jugador a salido de escena por caer al agua
         var outOfScreen = this.player.y >= game.config.height;
         if (outOfScreen) {
@@ -159,7 +166,7 @@ class MainScene extends Phaser.Scene {
         }
 
         //Si el jugador a muerto y la animacion de muerte ha terminado se presenta la pantalla de Gameover
-        if (this.player.isDeath && !this.player.anims.isPlaying) {
+        if (this.player.gameOver && !this.player.anims.isPlaying) {
             this.bgm.stop();
             this.scene.start("Gameover", { score: this.score });
         }

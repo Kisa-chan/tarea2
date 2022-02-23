@@ -40,10 +40,10 @@ class SecondScene extends Phaser.Scene {
         //Se crea un jugador con la vida restante del anterior, y se añade colision con las plataformas
         this.player = new Player(this, 40, 100, this.health);
         utils.configurarColisiones(
-            limites,
             plataformas,
             this.physics,
-            this.player
+            this.player,
+            limites
         );
         utils.configurarCamara(this.cameras, this.map, this.player);
         // this.input.keyboard.on("keydown-X", this.isAttacking, this);
@@ -106,8 +106,8 @@ class SecondScene extends Phaser.Scene {
     //Funcion para recibir daño de las puas
     puaHit() {
         if (!this.player.isDeath) {
-            this.player.checkDamage();
-            utils.quitarVidas(this);
+          this.player.checkEnviromentDamage();
+          utils.quitarVidas(this);
         }
     }
 
@@ -147,7 +147,7 @@ class SecondScene extends Phaser.Scene {
         this.player.update(time, delta);
         this.player.body.setSize(this.player.width, this.player.height, true);
 
-        if (this.player.isDeath && !this.player.anims.isPlaying) {
+        if (this.player.gameOver && !this.player.anims.isPlaying) {
             this.bgm.stop();
             this.scene.start("Gameover", { score: this.score });
         }

@@ -11,6 +11,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         this.isDeath = false;
         this.isDamaged = false;
         this.stopMovement = false;
+        this.gameOver = false;
         
         this.health = health;
 
@@ -76,6 +77,9 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         //Caso contrario se comprueba si esta atacando
         if(this.body.onFloor() && this.isDeath && !this.stopMovement && !this.isAttacking){
             this.play('death', true);
+            this.once('animationcomplete', () => {
+                this.gameOver = true;
+            });
             this.stopMovement = true;
         } else {
             this.checkAttack();
@@ -94,7 +98,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
 
     //Se verifica si el jugador esta atacando y de ser el caso se ejecuta aleatoriamente uno de dos ataques para dar variedad
     checkAttack(){
-        if(this.isAttacking && this.anims.currentAnim.key !== 'attack2' && this.anims.currentAnim.key !== 'attack1'){
+        if(this.isAttacking && this.anims.currentAnim.key !== 'attack2' && this.anims.currentAnim.key !== 'attack1' && this.anims.currentAnim.key !== 'damage'){
             this.setVelocityX(0);
             if(Math.floor(Math.random() * 10) > 4){
                 this.play('attack2', true);
@@ -109,8 +113,8 @@ class Player extends Phaser.Physics.Arcade.Sprite {
 
         //Si esta saltando se cambia la velocidad de Y
         if (this.cursor.space.isDown && this.body.onFloor()) {
-            this.setVelocityY(-300);
-            this.setAccelerationY(250);
+            this.setVelocityY(-340);
+            this.setAccelerationY(300);
         }
 
         //En caso de que se encuentre saltando se cambia la velidad de X para evitar que pueda saltar una distancia exagerada
@@ -144,20 +148,30 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         }
     }
 
+    checkEnviromentDamage(){
+        if(!this.isDamaged && this.anims.currentAnim.key !== 'attack2' && this.anims.currentAnim.key !== 'attack1'){
+            this.health -= 1;
+            this.checkHealth();
+        }
+    }
+
     checkDamage(){
         //Se comprueba que no este recibiendo daño actualmente y que no este atacando, ya que la animacion de ataque puede sobreponer el collider del jugador
         //con el de las puas, provocando un comportamiento no deseado. Sin embargo si realmente esta siendo lastimado por las puas, se registra el daño aun si
         //continua atacando
-        if(!this.isDamaged && this.anims.currentAnim.key !== 'attack2' && this.anims.currentAnim.key !== 'attack1'){
+        if(!this.isDamaged){
             this.health -= 1;
+            this.checkHealth();
         }
+    }
 
+    checkHealth(){
         //Si la vida llega a cero se cambia el estado a muerto y se detiene el movimiento
         //caso contrario se ejecuta la animacion de daño y se mueve ligeramente la posicion del jugador para dar feedback de ser lastimado.
         if(this.health <= 0){
             this.isDeath = true;
             this.setVelocityX(0);
-        } else if(!this.isDamaged && this.anims.currentAnim.key !== 'attack2' && this.anims.currentAnim.key !== 'attack1') {
+        } else if(!this.isDamaged) {
             this.isDamaged = true;
             this.play('damage', true);
             if (this.body.velocity.x < 0  ) this.body.position.x += 50; 

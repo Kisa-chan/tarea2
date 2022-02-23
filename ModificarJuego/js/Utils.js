@@ -29,17 +29,26 @@ class Utils {
 
     cargarMapaSegundaEscena(juego) {
         juego.load.tilemapTiledJSON("map-2", "res/New-Map.json");
-        juego.load.image("arboles", "res/_PNG/arboles.png");
-        juego.load.image("dia-fondo-1", "res/_PNG/dia-fondo-1.png");
-        juego.load.image("dia-fondo-2", "res/_PNG/dia-fondo-2.png");
-        juego.load.image("decoraciones", "res/_PNG/decoraciones.png");
-        juego.load.image("plataformas", "res/_PNG/plataformas.png");
-        juego.load.image("cueva-fondo-1", "res/_PNG/cueva-fondo-1.png");
-        juego.load.image("cueva-fondo-2", "res/_PNG/cueva-fondo-2.png");
-        juego.load.image("cueva-fondo-3", "res/_PNG/cueva-fondo-3.png");
-        juego.load.image("cueva-fondo-4", "res/_PNG/cueva-fondo-4.png");
-        juego.load.image("cueva-plataformas", "res/_PNG/cueva-plataformas.png");
-        juego.load.image("cueva-objetos", "res/_PNG/cueva-objetos.png");
+        juego.load.image("arboles", "res/MapSprites/arboles.png");
+        juego.load.image("dia-fondo-1", "res/MapSprites/dia-fondo-1.png");
+        juego.load.image("dia-fondo-2", "res/MapSprites/dia-fondo-2.png");
+        juego.load.image("decoraciones", "res/MapSprites/decoraciones.png");
+        juego.load.image("plataformas", "res/MapSprites/plataformas.png");
+        juego.load.image("cueva-fondo-1", "res/MapSprites/cueva-fondo-1.png");
+        juego.load.image("cueva-fondo-2", "res/MapSprites/cueva-fondo-2.png");
+        juego.load.image("cueva-fondo-3", "res/MapSprites/cueva-fondo-3.png");
+        juego.load.image("cueva-fondo-4", "res/MapSprites/cueva-fondo-4.png");
+        juego.load.image("cueva-plataformas", "res/MapSprites/cueva-plataformas.png");
+        juego.load.image("cueva-objetos", "res/MapSprites/cueva-objetos.png");
+    }
+
+    cargarMapaPeleaBoss(juego) {
+        juego.load.tilemapTiledJSON("boss-map", "res/Boss-Scene.json");
+        juego.load.image("sky", 'res/MapSprites/BG-sky.png');
+        juego.load.image("mountains", 'res/MapSprites/BG-mountains.png');
+        juego.load.image("ruins", 'res/MapSprites/BG-ruins.png');
+        juego.load.image("sun", 'res/MapSprites/BG-sun.png');
+        juego.load.image("plataformas", 'res/MapSprites/BossPlataformas.png');
     }
 
     cargarMusicaFondoField(juego) {
@@ -47,6 +56,10 @@ class Utils {
     }
 
     cargarMusicaFondoNight(juego) {
+        juego.load.audio("bgmNight", ["res/Audio/night_theme.wav"]);
+    }
+
+    cargarMusicaFondoBoss(juego) {
         juego.load.audio("bgmNight", ["res/Audio/night_theme.wav"]);
     }
 
@@ -76,6 +89,8 @@ class Utils {
             "res/skelleton_anim/skelleton-atlas.png",
             "res/skelleton_anim/skelleton-atlas.json"
         );
+        juego.load.atlas('sprites_boss', 'res/BossSprites/Boss-anim3.png',
+            'res/BossSprites/boss-anim.json');
     }
 
     agregarTilesMapaSegundaEscena(map) {
@@ -115,17 +130,30 @@ class Utils {
         );
     }
 
+    agregarTilesMapaBoss(map) {
+        map.addTilesetImage("BG-sky", "sky");
+        map.addTilesetImage("BG-ruins", "ruins");
+        map.addTilesetImage("BG-mountains", "mountains");
+        map.addTilesetImage("BG-sun", "sun");
+        map.addTilesetImage("BossPlataformas", "plataformas");
+        map.createLayer("Sky", 'BG-sky', 0, 0);
+        map.createLayer("Mountains", ['BG-mountains', 'BG-sun'], 0, 0);
+        map.createLayer("Ruins", 'BG-ruins', 0, 0);
+    }
+
     configurarCamara(cameras, map, player) {
         //Se define la camara y que siga al jugador mientras se mueve
         cameras.main.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
         cameras.main.startFollow(player);
     }
 
-    configurarColisiones(limites, layer, physics, player) {
+    configurarColisiones(layer, physics, player, limites) {
         layer.setCollisionByExclusion([-1], true);
-        limites.setCollisionByExclusion([-1], true);
-        limites.setVisible(false);
         physics.add.collider(player, layer);
+        if(limites){
+            limites.setCollisionByExclusion([-1], true);
+            limites.setVisible(false);
+        }
     }
 
     visualizarPuntuacion(juego) {

@@ -78,6 +78,13 @@ class MainScene extends Phaser.Scene {
             this.physics.add.overlap(bat, this.player, this.batHit, null, this);
         });
 
+        this.keys = [];
+        this.keyObjects = this.map.getObjectLayer("keys")["objects"];
+        this.keyObjects.forEach((key) => {
+          var key = new Key(this, key.x, key.y);
+          this.keys.push(key);
+        })
+
         //Sistema de puntuacion en pantalla
         this.score = 0;
         utils.visualizarPuntuacion(this);

@@ -93,6 +93,15 @@ class Utils {
             'res/BossSprites/boss-anim.json');
     }
 
+    cargarLlaves(juego) {
+      juego.load.image("key", "res/key.png");
+      juego.load.atlas(
+        "sprites_key",
+        "res/key_anim/key-atlas.png",
+        "res/key_anim/key-atlas.json"
+      )
+    }
+
     agregarTilesMapaSegundaEscena(map) {
         map.addTilesetImage("Arboles", "arboles");
         map.addTilesetImage("Dia-Fondo-1", "dia-fondo-1");

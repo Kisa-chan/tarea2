@@ -60,7 +60,9 @@ class Utils {
     }
 
     cargarMusicaFondoBoss(juego) {
-        juego.load.audio("bgmNight", ["res/Audio/night_theme.wav"]);
+        juego.load.audio("bgmBoss", ["res/Audio/boss_theme.mp3"]);
+        juego.load.audio("beamEffect", ["res/Audio/heavy-beam.mp3"]);
+        juego.load.audio("victorySound", ["res/Audio/victory-sound.mp3"]);
     }
 
     salirEscene(juego) {

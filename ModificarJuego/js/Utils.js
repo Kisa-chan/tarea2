@@ -93,6 +93,15 @@ class Utils {
             'res/BossSprites/boss-anim.json');
     }
 
+    cargarLlaves(juego) {
+      juego.load.image("key", "res/key.png");
+      juego.load.atlas(
+        "sprites_key",
+        "res/key_anim/key-atlas.png",
+        "res/key_anim/key-atlas.json"
+      )
+    }
+
     agregarTilesMapaSegundaEscena(map) {
         map.addTilesetImage("Arboles", "arboles");
         map.addTilesetImage("Dia-Fondo-1", "dia-fondo-1");
@@ -178,6 +187,12 @@ class Utils {
             fontFamily: "verdana, arial, sans-serif",
         });
         juego.lifeText.setScrollFactor(0);
+    }
+
+    visualizarLlave(juego) {
+        juego.keySprite = juego.add.image(700, 30, "key1");
+        juego.keySprite.setScale(1.5);
+        juego.keySprite.setScrollFactor(0);
     }
 
     //Funcion de ataque que cambia el estado del jugador solo si no esta muerto y no ha atacado todavia

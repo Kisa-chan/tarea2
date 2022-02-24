@@ -182,18 +182,18 @@ class MainScene extends Phaser.Scene {
         }
 
         // //Se verifica si el jugador a llegado al final del nivel para cambiar de escena y se detiene la musica de la escena actual
-        var outOfScreen = (this.player.y >= game.config.height);
-        if(outOfScreen){
-            this.bgm.stop();
-            this.scene.start("BossScene", {score: this.score, health: this.player.health});
-        }
+        // var outOfScreen = (this.player.y >= game.config.height);
+        // if(outOfScreen){
+        //     this.bgm.stop();
+        //     this.scene.start("BossScene", {score: this.score, health: this.player.health});
+        // }
 
         //Se verifica si el jugador a salido de escena por caer al agua
-        // var outOfScreen = this.player.y >= game.config.height;
-        // if (outOfScreen) {
-        //     this.bgm.stop();
-        //     this.scene.start("Gameover", { score: this.score });
-        // }
+        var outOfScreen = this.player.y >= game.config.height;
+        if (outOfScreen) {
+            this.bgm.stop();
+            this.scene.start("Gameover", { score: this.score });
+        }
 
         //Si el jugador a muerto y la animacion de muerte ha terminado se presenta la pantalla de Gameover
         if (this.player.gameOver && !this.player.anims.isPlaying) {

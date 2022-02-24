@@ -14,7 +14,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         this.gameOver = false;
         
         this.health = health;
-
+        this.haveKey = false;
         //Se crean las animaciones del jugador
         this.anims.create({
             key: 'run',
@@ -177,5 +177,10 @@ class Player extends Phaser.Physics.Arcade.Sprite {
             if (this.body.velocity.x < 0  ) this.body.position.x += 50; 
             else if (this.body.velocity.x > 0  ) this.body.position.x -= 50; 
         }
+    }
+
+    setHaveKey(value) {
+      console.log(value);
+      this.haveKey = value;
     }
 }

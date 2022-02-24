@@ -7,10 +7,13 @@ class MainScene extends Phaser.Scene {
         //Se carga el nuevo mapa a presentar en el segundo nivel junto con los recursos necesarios
         utils.cargarMapaPrimeraEscena(this);
         this.load.image("life3", "res/life3.png");
+        this.load.image("key1", "res/key.png");
+        this.load.image("puertaSprite", "res/puerta.png");
         //Se carga archivo de audio para usar como musica de fondo
         utils.cargarMusicaFondoField(this);
         utils.cargarJugador(this);
         utils.cargarEnemigos(this);
+        utils.cargarLlaves(this);
         this.load.spritesheet("tilesSprites", "res/Tileset.png", {
             frameWidth: 32,
             frameHeight: 32,
@@ -39,6 +42,9 @@ class MainScene extends Phaser.Scene {
         var layer = this.map.createLayer("Suelo", tiles, 0, 0);
         var limites = this.map.createLayer("Limites", tiles, 0, 0);
 
+        this.puertaObject = this.map.getObjectLayer("Puerta")["objects"][0];
+        this.puerta = this.add.image(this.puertaObject.x, this.puertaObject.y, "puertaSprite");
+
         //Se crea un objeto tipo player y se añaden las colisiones con el ambiente
         this.player = new Player(this, 20, 100, 5);
         utils.configurarColisiones(layer, this.physics, this.player, limites);
@@ -66,6 +72,7 @@ class MainScene extends Phaser.Scene {
             }
         }
 
+        
         //Se añaden los enemigos del primer nivel
         this.bats = [];
         this.enemigos = this.map.getObjectLayer("bats")["objects"];
@@ -78,13 +85,17 @@ class MainScene extends Phaser.Scene {
             this.physics.add.overlap(bat, this.player, this.batHit, null, this);
         });
 
-        this.keys = [];
         this.keyObjects = this.map.getObjectLayer("keys")["objects"];
-        this.keyObjects.forEach((key) => {
-          var key = new Key(this, key.x, key.y);
-          this.keys.push(key);
-        })
-
+        var key = new Key(this, this.keyObjects[0].x, this.keyObjects[0].y);
+        this.key = key;
+        this.physics.add.collider(key, layer);
+        this.physics.add.overlap(
+          key,
+          this.player,
+          this.keyHit,
+          null,
+          this
+        );
         //Sistema de puntuacion en pantalla
         this.score = 0;
         utils.visualizarPuntuacion(this);
@@ -124,6 +135,14 @@ class MainScene extends Phaser.Scene {
         sprite1.destroy();
     }
 
+    //Funcion para recoger llave
+    keyHit(sprite1, sprite2) {
+      this.key = null;
+      sprite1.destroy();
+      this.player.setHaveKey(true);
+      utils.visualizarLlave(this);
+    }
+
     //Funcion para controlar las acciones a ejecutarse cuando collisionan el jugador y el enemigo
     batHit(bat) {
         if (!bat.playAttack) {
@@ -145,12 +164,16 @@ class MainScene extends Phaser.Scene {
     update(time, delta) {
         this.player.update(time, delta);
         this.bats.forEach((bat) => {
-            bat.update(time, delta);
+          bat.update(time, delta);
         });
+        if (this.key) {
+          this.key.update(time, delta);
+        }
+
         this.player.body.setSize(this.player.width, this.player.height, true);
 
         //Se verifica si el jugador a llegado al final del nivel para cambiar de escena y se detiene la musica de la escena actual
-        if (this.player.x > this.map.widthInPixels) {
+        if (this.player.x > this.puertaObject.x && this.player.haveKey) {
             this.bgm.stop();
             this.scene.start("SecondScene", {
                 score: this.score,

@@ -189,6 +189,12 @@ class Utils {
         juego.lifeText.setScrollFactor(0);
     }
 
+    visualizarLlave(juego) {
+        juego.keySprite = juego.add.image(700, 30, "key1");
+        juego.keySprite.setScale(1.5);
+        juego.keySprite.setScrollFactor(0);
+    }
+
     //Funcion de ataque que cambia el estado del jugador solo si no esta muerto y no ha atacado todavia
     isAttacking(juego) {
         if (!juego.player.isDeath && !juego.player.isAttacking)

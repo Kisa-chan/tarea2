@@ -44,7 +44,7 @@ class Gameover extends Phaser.Scene {
         );
 
         var referenceText =
-            "Recursos usados en este juego tomados de itch.io\nEscenarios y plataformas: Szadi art.\nMusica: SVL.\nSprite de jugador: LuizMelo.";
+            "Recursos usados en este juego\nEscenarios y plataformas: Szadi art, oisougabo.\nMusica: SVL, Final Boss by Myuu, Pixabay.\nSprites: LuizMelo, Kronovi-.";
         var text = this.add.text(
             this.sys.game.config.width / 2 - 250,
             this.sys.game.config.height / 2 - 20,

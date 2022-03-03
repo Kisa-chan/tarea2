@@ -6,7 +6,7 @@ class BossScene extends Phaser.Scene {
 
     preload() {
         //Se carga el nuevo mapa a presentar en el segundo nivel junto con los recursos necesarios
-        utils.cargarMapaPeleaBoss(this);
+        utils.cargarMapaPeleaBoss(this);            
         utils.cargarMusicaFondoBoss(this);
     }
 
@@ -17,11 +17,14 @@ class BossScene extends Phaser.Scene {
     }
 
     create() {
+        this.bgm = this.sound.add("bgmBoss", { loop: true, volume: 0.2 });
+        this.bgm.play();
+        this.beam = this.sound.add("beamEffect", { loop: false, volume: 0.5 });
+        this.victorySound = this.sound.add("victorySound", { loop: false, volume: 0.5 });
+
         //Se crea el mapa y las capas del mismo
         this.map = this.make.tilemap({ key: "boss-map" });
-        this.bgm = this.sound.add("bgmNight", { loop: true });
-        this.bgm.play();
-
+    
         utils.agregarTilesMapaBoss(this.map);
         var tiles = this.map.createLayer("BossFight", 'BossPlataformas', 0, 0);
         var mapCollider = this.map.createLayer("BossFightCollider", tiles, 0, 0);
@@ -42,7 +45,7 @@ class BossScene extends Phaser.Scene {
 
         //Se añaden los objetos tipo Pua al mapa y se define funcion a ejecutar al colisionar con estos
         let bossObject = this.map.getObjectLayer("Boss")["objects"][0];
-        this.boss = new Boss(this, bossObject.x + 8, bossObject.y - 8, this.player);
+        this.boss = new Boss(this, bossObject.x + 8, bossObject.y - 8, this.player, this.beam);
 
         this.boss.body.setSize(this.boss.width, this.boss.height);
         this.physics.add.collider(this.boss, mapCollider);
@@ -107,6 +110,8 @@ class BossScene extends Phaser.Scene {
         }
 
         if (this.boss.bossVictory) {
+            this.bgm.stop();
+            this.victorySound.play();
             utils.agregarPuntaje(this);
             this.boss.bossVictory = false;
             var exitPlataforms = this.map.createLayer("PlataformasSalida", 'BossPlataformas', 0, 0);

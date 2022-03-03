@@ -1,12 +1,12 @@
 class Boss extends Phaser.Physics.Arcade.Sprite {
-    constructor(scene, x, y, player) {
+    constructor(scene, x, y, player, beamSound) {
         super(scene, x, y, "boss");
         this.scene = scene;
         this.scene.add.existing(this);
         this.scene.physics.add.existing(this);
         this.velocidad = 100;
         this.player = player;
-        this.health = 18;
+        this.health = 8;
         this.playAnim = false;
         this.attackSuccess = false;
         this.isDamaged = false;
@@ -18,6 +18,7 @@ class Boss extends Phaser.Physics.Arcade.Sprite {
         this.isJumpAttack = false;
         this.temporalPos;
         this.beforeLaserPos;
+        this.beamSound = beamSound;
 
         this.hpBar = new HealthBar(scene, x, y - 20, this.health);
         
@@ -231,6 +232,7 @@ class Boss extends Phaser.Physics.Arcade.Sprite {
             this.play("defense", false);
             this.once('animationcomplete', () => {
                 this.play("laser", false);
+                this.beamSound.play();
                 this.once('animationcomplete', () => {
                     this.visible = false;
                     this.isAttackingLaser = false;

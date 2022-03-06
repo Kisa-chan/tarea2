@@ -62,7 +62,7 @@ class Utils {
         juego.load.image("mountains", "res/MapSprites/BG-mountains.png");
         juego.load.image("ruins", "res/MapSprites/BG-ruins.png");
         juego.load.image("sun", "res/MapSprites/BG-sun.png");
-        juego.load.image("plataformas", "res/MapSprites/BossPlataformas.png");
+        juego.load.image("plataformasBoss", "res/MapSprites/BossPlataformas.png");
     }
 
     cargarMusicaFondoField(juego) {
@@ -175,7 +175,7 @@ class Utils {
         map.addTilesetImage("BG-ruins", "ruins");
         map.addTilesetImage("BG-mountains", "mountains");
         map.addTilesetImage("BG-sun", "sun");
-        map.addTilesetImage("BossPlataformas", "plataformas");
+        map.addTilesetImage("BossPlataformas", "plataformasBoss");
         map.createLayer("Sky", "BG-sky", 0, 0);
         map.createLayer("Mountains", ["BG-mountains", "BG-sun"], 0, 0);
         map.createLayer("Ruins", "BG-ruins", 0, 0);

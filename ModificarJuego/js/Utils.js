@@ -199,7 +199,7 @@ class Utils {
     visualizarPuntuacion(juego) {
         juego.scoreText = juego.add.text(16, 16, "PUNTOS: " + juego.score, {
             fontSize: "20px",
-            fill: "#000",
+            fill: "#00F",
             fontFamily: "verdana, arial, sans-serif",
         });
         juego.scoreText.setScrollFactor(0);
@@ -214,7 +214,7 @@ class Utils {
         juego.vidas = juego.player.health;
         juego.lifeText = juego.add.text(622, 18, "X " + juego.vidas, {
             fontSize: "20px",
-            fill: "#000",
+            fill: "#00F",
             fontFamily: "verdana, arial, sans-serif",
         });
         juego.lifeText.setScrollFactor(0);

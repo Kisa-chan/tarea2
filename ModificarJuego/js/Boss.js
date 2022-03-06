@@ -6,7 +6,7 @@ class Boss extends Phaser.Physics.Arcade.Sprite {
         this.scene.physics.add.existing(this);
         this.velocidad = 100;
         this.player = player;
-        this.health = 18;
+        this.health = 12;
         this.playAnim = false;
         this.attackSuccess = false;
         this.isDamaged = false;

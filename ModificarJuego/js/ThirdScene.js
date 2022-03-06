@@ -7,7 +7,7 @@ class ThirdScene extends Phaser.Scene {
         //Se carga el nuevo mapa a presentar en el segundo nivel junto con los recursos necesarios
         utils.cargarMapaTerceraEscena(this);
         utils.cargarMusicaFondoField(this);
-        utils.cargarJugador(this);
+        //utils.cargarJugador(this);
     }
 
     //Se cargan los datos de puntuacion y vida del anterior nivel

@@ -141,9 +141,8 @@ class MainScene extends Phaser.Scene {
                 bat.destroy();
                 this.bats = this.bats.filter((_bat) => _bat != bat);
                 if (this.player.isAttacking) {
-                    /* Solo agregamos puntaje si se eliminó con ataque */
-                    utils.agregarPuntaje(this);
                 }
+                utils.agregarPuntaje(this);
                 utils.agregarVidas(this);
             });
         }
@@ -169,16 +168,16 @@ class MainScene extends Phaser.Scene {
             });
         }
 
-        //Se verifica si el jugador a llegado al final del nivel para cambiar de escena y se detiene la musica de la escena actual
-        /* var outOfScreen = this.player.y >= game.config.height;
-        if (outOfScreen) {
-            this.bgm.stop();
-            this.scene.start("BossScene", {
-                score: this.score,
-                health: this.player.health,
-            });
-        }
-        */
+        // //Se verifica si el jugador a llegado al final del nivel para cambiar de escena y se detiene la musica de la escena actual
+        //  var outOfScreen = this.player.y >= game.config.height;
+        // if (outOfScreen) {
+        //     this.bgm.stop();
+        //     this.scene.start("ThirdScene", {
+        //         score: this.score,
+        //         health: this.player.health,
+        //     });
+        // }
+        
         //Se verifica si el jugador a salido de escena por caer al agua
         var outOfScreen = this.player.y >= game.config.height;
         if (outOfScreen) {

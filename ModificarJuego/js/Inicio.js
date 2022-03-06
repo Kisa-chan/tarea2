@@ -9,18 +9,48 @@ class Inicio extends Phaser.Scene {
 
     create() {
         this.add.tileSprite(
-            windows.width/2,
-            windows.height/2,
+            windows.width / 2,
+            windows.height / 2,
             windows.width,
             windows.height,
             "bg-1"
         );
         const pressButton = this.add.text(
             this.sys.game.config.width / 2 - 200,
-            this.sys.game.config.height / 2,
+            this.sys.game.config.height / 2 - 100,
             "PRESS ANY BUTTON",
             {
                 fontSize: "40px",
+                fill: "#000",
+                fontFamily: "verdana, arial, sans-serif",
+            }
+        );
+
+        const tutorialTitleText = this.add.text(
+            this.sys.game.config.width / 2 - 300,
+            this.sys.game.config.height / 2,
+            "Instrucciones de Juego.-",
+            {
+                fontSize: "28px",
+                fill: "#000",
+                fontFamily: "verdana, arial, sans-serif",
+            }
+        );
+
+        //Indicacion de atacar y saltar
+        const tutorialText = this.add.text(
+            this.sys.game.config.width / 2 - 300,
+            this.sys.game.config.height / 2 + 35,
+            "Se golpea con X\n" +
+                "Se salta con ESPACIO\n" +
+                "Se mueve con las flechas\n" +
+                "Al tomar una seta o vencer a un enemigo aumenta el puntaje\n" +
+                "y al obtener 10 puntos se suma una vida\n" +
+                "Se debe recolectar la llave correspondiente\n" +
+                "para poder pasar al siguiente nivel\n" +
+                " o deribar las paredes de piedra",
+            {
+                fontSize: "20px",
                 fill: "#000",
                 fontFamily: "verdana, arial, sans-serif",
             }

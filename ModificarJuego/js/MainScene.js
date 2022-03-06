@@ -43,7 +43,11 @@ class MainScene extends Phaser.Scene {
         var limites = this.map.createLayer("Limites", tiles, 0, 0);
 
         this.puertaObject = this.map.getObjectLayer("Puerta")["objects"][0];
-        this.puerta = this.add.image(this.puertaObject.x, this.puertaObject.y, "puertaSprite");
+        this.puerta = this.add.image(
+            this.puertaObject.x,
+            this.puertaObject.y,
+            "puertaSprite"
+        );
 
         //Se crea un objeto tipo player y se añaden las colisiones con el ambiente
         this.player = new Player(this, 20, 100, 5);
@@ -72,7 +76,6 @@ class MainScene extends Phaser.Scene {
             }
         }
 
-        
         //Se añaden los enemigos del primer nivel
         this.bats = [];
         this.enemigos = this.map.getObjectLayer("bats")["objects"];
@@ -89,31 +92,13 @@ class MainScene extends Phaser.Scene {
         var key = new Key(this, this.keyObjects[0].x, this.keyObjects[0].y);
         this.key = key;
         this.physics.add.collider(key, layer);
-        this.physics.add.overlap(
-          key,
-          this.player,
-          this.keyHit,
-          null,
-          this
-        );
+        this.physics.add.overlap(key, this.player, this.keyHit, null, this);
         //Sistema de puntuacion en pantalla
         this.score = 0;
         utils.visualizarPuntuacion(this);
 
         //Sistema de vidas en pantalla
         utils.visualizarVidas(this);
-
-        //Indicacion de atacar y saltar
-        this.tutorialText = this.add.text(
-            300,
-            18,
-            "Se golpea con X\nSe salta con ESPACIO\nSe mueve con las flechas",
-            {
-                fontSize: "20px",
-                fill: "#000",
-                fontFamily: "verdana, arial, sans-serif",
-            }
-        );
 
         this.time.addEvent({
             delay: 1000,
@@ -137,10 +122,10 @@ class MainScene extends Phaser.Scene {
 
     //Funcion para recoger llave
     keyHit(sprite1, sprite2) {
-      this.key = null;
-      sprite1.destroy();
-      this.player.setHaveKey(true);
-      utils.visualizarLlave(this);
+        this.key = null;
+        sprite1.destroy();
+        this.player.setHaveKey(true);
+        utils.visualizarLlave(this);
     }
 
     //Funcion para controlar las acciones a ejecutarse cuando collisionan el jugador y el enemigo
@@ -155,7 +140,10 @@ class MainScene extends Phaser.Scene {
             bat.once("animationcomplete", () => {
                 bat.destroy();
                 this.bats = this.bats.filter((_bat) => _bat != bat);
-                utils.agregarPuntaje(this);
+                if (this.player.isAttacking) {
+                    /* Solo agregamos puntaje si se eliminó con ataque */
+                    utils.agregarPuntaje(this);
+                }
                 utils.agregarVidas(this);
             });
         }
@@ -164,10 +152,10 @@ class MainScene extends Phaser.Scene {
     update(time, delta) {
         this.player.update(time, delta);
         this.bats.forEach((bat) => {
-          bat.update(time, delta);
+            bat.update(time, delta);
         });
         if (this.key) {
-          this.key.update(time, delta);
+            this.key.update(time, delta);
         }
 
         this.player.body.setSize(this.player.width, this.player.height, true);
@@ -181,13 +169,16 @@ class MainScene extends Phaser.Scene {
             });
         }
 
-        // //Se verifica si el jugador a llegado al final del nivel para cambiar de escena y se detiene la musica de la escena actual
-        // var outOfScreen = (this.player.y >= game.config.height);
-        // if(outOfScreen){
-        //     this.bgm.stop();
-        //     this.scene.start("BossScene", {score: this.score, health: this.player.health});
-        // }
-
+        //Se verifica si el jugador a llegado al final del nivel para cambiar de escena y se detiene la musica de la escena actual
+        /* var outOfScreen = this.player.y >= game.config.height;
+        if (outOfScreen) {
+            this.bgm.stop();
+            this.scene.start("BossScene", {
+                score: this.score,
+                health: this.player.health,
+            });
+        }
+        */
         //Se verifica si el jugador a salido de escena por caer al agua
         var outOfScreen = this.player.y >= game.config.height;
         if (outOfScreen) {

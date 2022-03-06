@@ -51,6 +51,21 @@ class SecondScene extends Phaser.Scene {
             utils.isAttacking(this);
         });
 
+        //Agregamos la pared del final, para que pueda interactuar con el jugador la agregamos como sprite
+        this.paredObject = this.map.getObjectLayer("Wall")["objects"][0];
+        this.pared = new Wall(this, this.paredObject.x, this.paredObject.y);
+        this.pared.body.setSize(63, 180);
+        this.pared.setImmovable();
+        this.physics.add.collider(this.pared, plataformas);
+        this.physics.add.collider(this.pared, this.player);
+        this.physics.add.overlap(
+            this.pared,
+            this.player,
+            this.wallHit,
+            null,
+            this
+        );
+
         //Se añaden los objetos tipo Pua al mapa y se define funcion a ejecutar al colisionar con estos
         this.puasGroup = [];
         this.puas = this.map.getObjectLayer("puas")["objects"];
@@ -106,8 +121,8 @@ class SecondScene extends Phaser.Scene {
     //Funcion para recibir daño de las puas
     puaHit() {
         if (!this.player.isDeath) {
-          this.player.checkEnviromentDamage();
-          utils.quitarVidas(this);
+            this.player.checkEnviromentDamage();
+            utils.quitarVidas(this);
         }
     }
 
@@ -136,6 +151,13 @@ class SecondScene extends Phaser.Scene {
                     utils.agregarVidas(this);
                 });
             }
+        }
+    }
+
+    wallHit() {
+        if (this.player.isAttacking) {
+            this.pared.destroy();
+            this.scene.start("BossScene");
         }
     }
 

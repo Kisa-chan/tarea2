@@ -38,17 +38,21 @@ class Utils {
         juego.load.image("cueva-fondo-2", "res/MapSprites/cueva-fondo-2.png");
         juego.load.image("cueva-fondo-3", "res/MapSprites/cueva-fondo-3.png");
         juego.load.image("cueva-fondo-4", "res/MapSprites/cueva-fondo-4.png");
-        juego.load.image("cueva-plataformas", "res/MapSprites/cueva-plataformas.png");
+        juego.load.image(
+            "cueva-plataformas",
+            "res/MapSprites/cueva-plataformas.png"
+        );
         juego.load.image("cueva-objetos", "res/MapSprites/cueva-objetos.png");
+        juego.load.image("paredSprite", "res/wall.png");
     }
 
     cargarMapaPeleaBoss(juego) {
         juego.load.tilemapTiledJSON("boss-map", "res/Boss-Scene.json");
-        juego.load.image("sky", 'res/MapSprites/BG-sky.png');
-        juego.load.image("mountains", 'res/MapSprites/BG-mountains.png');
-        juego.load.image("ruins", 'res/MapSprites/BG-ruins.png');
-        juego.load.image("sun", 'res/MapSprites/BG-sun.png');
-        juego.load.image("plataformas", 'res/MapSprites/BossPlataformas.png');
+        juego.load.image("sky", "res/MapSprites/BG-sky.png");
+        juego.load.image("mountains", "res/MapSprites/BG-mountains.png");
+        juego.load.image("ruins", "res/MapSprites/BG-ruins.png");
+        juego.load.image("sun", "res/MapSprites/BG-sun.png");
+        juego.load.image("plataformas", "res/MapSprites/BossPlataformas.png");
     }
 
     cargarMusicaFondoField(juego) {
@@ -91,17 +95,20 @@ class Utils {
             "res/skelleton_anim/skelleton-atlas.png",
             "res/skelleton_anim/skelleton-atlas.json"
         );
-        juego.load.atlas('sprites_boss', 'res/BossSprites/Boss-anim3.png',
-            'res/BossSprites/boss-anim.json');
+        juego.load.atlas(
+            "sprites_boss",
+            "res/BossSprites/Boss-anim3.png",
+            "res/BossSprites/boss-anim.json"
+        );
     }
 
     cargarLlaves(juego) {
-      juego.load.image("key", "res/key.png");
-      juego.load.atlas(
-        "sprites_key",
-        "res/key_anim/key-atlas.png",
-        "res/key_anim/key-atlas.json"
-      )
+        juego.load.image("key", "res/key.png");
+        juego.load.atlas(
+            "sprites_key",
+            "res/key_anim/key-atlas.png",
+            "res/key_anim/key-atlas.json"
+        );
     }
 
     agregarTilesMapaSegundaEscena(map) {
@@ -147,9 +154,9 @@ class Utils {
         map.addTilesetImage("BG-mountains", "mountains");
         map.addTilesetImage("BG-sun", "sun");
         map.addTilesetImage("BossPlataformas", "plataformas");
-        map.createLayer("Sky", 'BG-sky', 0, 0);
-        map.createLayer("Mountains", ['BG-mountains', 'BG-sun'], 0, 0);
-        map.createLayer("Ruins", 'BG-ruins', 0, 0);
+        map.createLayer("Sky", "BG-sky", 0, 0);
+        map.createLayer("Mountains", ["BG-mountains", "BG-sun"], 0, 0);
+        map.createLayer("Ruins", "BG-ruins", 0, 0);
     }
 
     configurarCamara(cameras, map, player) {
@@ -161,7 +168,7 @@ class Utils {
     configurarColisiones(layer, physics, player, limites) {
         layer.setCollisionByExclusion([-1], true);
         physics.add.collider(player, layer);
-        if(limites){
+        if (limites) {
             limites.setCollisionByExclusion([-1], true);
             limites.setVisible(false);
         }

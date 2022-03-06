@@ -46,6 +46,16 @@ class Utils {
         juego.load.image("paredSprite", "res/wall.png");
     }
 
+    cargarMapaTerceraEscena(juego) {
+        juego.load.tilemapTiledJSON("map-3", "res/Map2.json");
+        juego.load.image("BG0", 'res/Map2Sprites/1/Background_0.png');
+        juego.load.image("BG1", 'res/Map2Sprites/1/Background_1.png');
+        juego.load.image("brush", 'res/Map2Sprites/1/brush.png');
+        juego.load.image("BG2", 'res/Map2Sprites/1/Grass_background_1.png');
+        juego.load.image("BG3", 'res/Map2Sprites/1/Grass_background_2.png');
+        juego.load.image("plataformas3", 'res/Map2Sprites/1/Tiles3.png');
+    }
+
     cargarMapaPeleaBoss(juego) {
         juego.load.tilemapTiledJSON("boss-map", "res/Boss-Scene.json");
         juego.load.image("sky", "res/MapSprites/BG-sky.png");
@@ -146,6 +156,18 @@ class Utils {
             0,
             0
         );
+    }
+
+    agregarTilesMapaTerceraEscena(map) {
+        map.addTilesetImage("Background_0", "BG0");
+        map.addTilesetImage("Background_1", "BG1");
+        map.addTilesetImage("brush", "brush");
+        map.addTilesetImage("Grass_background_1", "BG2");
+        map.addTilesetImage("Grass_background_2", "BG3");
+        map.addTilesetImage("Tiles3", "plataformas3");
+        map.createLayer("FondoArbustos", ["Tiles3", "Grass_background_2", "Grass_background_1"], 0, 0);
+        map.createLayer("FondoCasa", 'Background_1', 0, 0);
+        map.createLayer("Cielo3", 'Background_0', 0, 0);
     }
 
     agregarTilesMapaBoss(map) {

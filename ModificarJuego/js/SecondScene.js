@@ -157,7 +157,11 @@ class SecondScene extends Phaser.Scene {
     wallHit() {
         if (this.player.isAttacking) {
             this.pared.destroy();
-            this.scene.start("BossScene");
+            this.bgm.stop();
+            this.scene.start("ThirdScene", {
+                score: this.score,
+                health: this.player.health,
+            });
         }
     }
 
